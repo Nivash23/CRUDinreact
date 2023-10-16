@@ -91,7 +91,7 @@ function Card(props)
         
       
 
-        <button type="submit" >BUTTON</button>
+        <button type="submit"  >BUTTON</button>
       </div>
     )
   }
@@ -103,7 +103,7 @@ function App()
 
     return (
       <div id="back">
-        <Card type="free" month="0" users="single" />
+        <Card type="freee" month="0" users="single" />
         <Card type="plus" month="9" users="5" />
         <Card type="pro" month="49" users="Unlimited" />
         
