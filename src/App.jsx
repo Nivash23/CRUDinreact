@@ -67,7 +67,7 @@ function Card(props)
         
       
 
-        <button type="submit" disabled>BUTTON</button>
+        <button type='button' id="disablebut" disabled>BUTTON</button>
       </div>
     )
     }
@@ -91,7 +91,7 @@ function Card(props)
         
       
 
-        <button type="submit"  >BUTTON</button>
+        <button type='button'  href='https://www.google.com'>BUTTON</button>
       </div>
     )
   }
