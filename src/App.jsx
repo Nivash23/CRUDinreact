@@ -1,119 +1,99 @@
-import React from 'react';
-import './styles/App.css';
-import './main'
+import axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
 
-function Card(props)
-{
-  let tick="✔  "
-  const list = [
-    
-    {
-      content: `${props.users} Users`,
-      id: 1
-          
-    },
-    {
-      content: "50GB Storage",
-      id: 2
-    },
-    {
-      content: "Unlimited Public Projects",
-      id: 3
-          
-    },
-    {
-      content: "Community Access",
-      id: 4
-    },
-    {
-      content: "Unlimited Private Projects",
-      id: 6
-          
-    },
-    {
-      content: "Dedicated phone support",
-      id: 7
-    },
-    {
-      content: "Free Subdomain",
-      id: 8
-          
-    },
-    {
-      content: "Monthly Status Reports",
-      id: 9
-    }
-  ]
-  if (props.month == '9' || props.month == '0')
-  {
-    
-    return (
-      <div id="cardback">
-        <div id="head">
+function App() {
+  const [users, setUsers] = useState([]);
+  const [name, setName] = useState(null);
+  const [UserId, setUserId] = useState(null);
+  const [newName, setNewName] = useState(null);
+  const [Idtodelete, setId] = useState(null);
+  useEffect(() => {
+    axios.get('https://jsonplaceholder.typicode.com/users')
+      .then(res => setUsers(res.data))
+  }, []);
 
-          <p id="text">{props.type}</p>
-          <h1> ${props.month}/Month</h1>
-        </div>
-        <ul>
-          {
-            list.map(val =>
-              
-            
-              <li key={val.id}>{tick}{val.content}</li>
-            )
-          }
-        </ul>
 
-        
-      
 
-        <button type='button' id="disablebut" disabled>BUTTON</button>
-      </div>
-    )
-    }
-  
-    return (
-      <div id="cardback">
-        <div id="head">
-
-          <p id="text">{props.type}</p>
-          <h1> ${props.month}/Month</h1>
-        </div>
-        <ul>
-          {
-            list.map(val =>
-              
-              <li key={val.id}>{tick}{val.content}</li>
-              )
-          }
-        </ul>
-
-        
-      
-
-        <button type='button'  href='https://www.google.com'>BUTTON</button>
-      </div>
-    )
+  const postusers = () => {
+    axios.post('https://jsonplaceholder.typicode.com/users', { name: name })
+      .then(result => setUsers([...users, result.data]))
   }
-function App()
-{
-  
- 
-  // console.log(list1[0].content)
 
-    return (
-      <div id="back">
-        <Card type="free" month="0" users="single" />
-        <Card type="plus" month="9" users="5" />
-        <Card type="pro" month="49" users="Unlimited" />
-        
-        
-  
-        
-        
+
+  const updateUser = () => {
+    axios.put(`https://jsonplaceholder.typicode.com/users/${UserId}`, { name: newName })
+      .then(res => console.log(res.data))
+  }
+
+  const Deleteuser = () => {
+    axios.delete(`https://jsonplaceholder.typicode.com/users/${Idtodelete}`)
+    .then(res=>console.log(res.data))
+  }
+  return (
+    <div>
+      <h1>All Users</h1>
+      {
+
+        users.map((user,i) =>
+          <ul>
+          
+            <li key={i}>{user.name}</li>
+          </ul>
+        )
+      }
+      <hr></hr>
+      <h2>Create Users</h2>
+      <div>
+        <label>Username : </label>
+        <input type='text' onChange={(val) => setName(val.target.value)} />
+        <button onClick={ postusers}>Add</button>
       </div>
-     )
+      <hr></hr>
+      <h2>Update Users</h2>
+      <div>
+        <h4 >UserID:<span>
+          <select onChange={(val)=>{setUserId(val.target.value)}}>
+            <option>select ID</option>
+              {
+
+                users.map((user) =>
+                  
+                  <option>{user.id}</option>
+                  
+              )
+              }
+          </select>
+        </span></h4>
 
 
+      </div>
+      <div>
+        <label>Username : </label>
+        <input type='text' onChange={(val)=>{setNewName(val.target.value)}} />
+        <button onClick={ updateUser}>Update</button>
+      </div>
+      <hr></hr>
+      <h2>Deleting the Users</h2>
+      <h4 >Select ID:<span>
+          <select onChange={(val)=>{setId(val.target.value)}}>
+            <option>select ID</option>
+              {
+
+                users.map((user) =>
+                  
+                  <option>{user.id}</option>
+                  
+              )
+              }
+          </select>
+      </span></h4>
+      <button onClick={Deleteuser}>Delete User</button>
+      
+      
+    </div>
+  )
 }
+
+ 
+
 export default App;
